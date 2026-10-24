@@ -1,0 +1,75 @@
+id: teleport-requests
+title: Teleport requests
+summary: Ask to go to a friend, ask them to come to you, answer requests, and keep the pests away.
+intro: |
+  Manners first: nobody gets dragged anywhere without saying yes. Here is how asking, answering and refusing works — and what it costs you.
+icon: ENDER_PEARL
+category: Getting around
+order: 20
+module: tpa
+aliases: [tpa, tp, teleport, tpahere, tphere, tpaccept, tpyes, tpdeny, tpno, tpcancel, tptoggle, tpauto, tpablock, tpaunblock, request, tpask]
+keywords: [visit, friend, accept, deny, block, auto, hermit, bypass, cooldown, warmup, price, selector]
+commands: [tpa, tpahere, tpaccept, tpdeny, tpcancel, tptoggle, tpauto, tpablock, tpaunblock]
+related: [back, basics]
+sections:
+  - question: How do I teleport to a friend?
+    title: Asking to go to somebody
+    text: |
+      {cmd:/tpa <player>} asks them whether you may come to them. {run:/tpa} alone opens a menu with everyone you can ask, your open requests and your block list. They get a clickable [Accept] / [Deny] in chat{if:tpa:tpa.notify-sound} and hear a bell{/if}.
+      The request stands for {setting:tpa:tpa.request-seconds|seconds}; if nobody answers, both of you are told it lapsed. Players on other servers of the network can be asked too.
+  - question: How do I ask someone to come to me?
+    title: Asking somebody to come
+    text: |
+      {cmd:/tpahere <player>} asks them to teleport to you. They accept the same way; the one who travels is them.
+      A guild tag works as the name: {cmd:/tpahere @TAG} asks every member who is here and visible to you, one request each.
+  - question: Someone asked me. What do I do?
+    title: Answering
+    text: |
+      Click [Accept] or [Deny] in chat, or type {cmd:/tpaccept} or {cmd:/tpdeny}. With several waiting, add a name: {cmd:/tpaccept <player>} — without one, the newest request is answered. Any number of people may be waiting on you at once.
+      Whoever is the traveller is the one who waits and pays: the asker for /tpa, you for /tpahere.
+  - question: Can I take a request back?
+    title: Cancelling
+    text: |
+      {run:/tpcancel} takes back your request, or — if a countdown is already running — calls the teleport off. Asking somebody else takes your first request back automatically, and the first person is told. You can only have one request out at a time.
+  - question: Do I have to stand still?
+    title: Waiting before the jump
+    when: tpa:tpa.warmup-seconds > 0
+    text: |
+      Yes: the traveller stands still for {setting:tpa:tpa.warmup-seconds|seconds} so a request is not a way out of a fight. {if:tpa:tpa.cancel-on-move}Leaving your block cancels it — turning your head does not.{/if} {if:tpa:tpa.cancel-on-damage}Taking damage cancels it too.{/if}
+      Players with the bypass permission teleport at once.
+  - question: Is there a wait between requests?
+    title: Cooldown
+    when: tpa:tpa.cooldown-seconds > 0
+    text: |
+      Yes: {setting:tpa:tpa.cooldown-seconds|seconds} between one request and the next from you, so nobody asks the whole server in a row. You are told how long is left.
+      {if:tpa:tpa.skip-cooldown-price}You can buy your way out: the refusal offers a button to skip the wait for {setting:tpa:tpa.skip-cooldown-price|money}.{/if}
+  - question: Does it cost anything?
+    title: Price
+    text: |
+      {if:tpa:tpa.price || tpa:tpa.price-per-100-blocks || tpa:tpa.cross-world-price}The traveller pays as they set off.{else}Nothing. Teleports are free here.{/if}
+      {if:tpa:tpa.price}Every trip: {setting:tpa:tpa.price|money}.{/if} {if:tpa:tpa.price-per-100-blocks}Plus {setting:tpa:tpa.price-per-100-blocks|money} per 100 blocks of distance within a world.{/if} {if:tpa:tpa.cross-world-price}Plus {setting:tpa:tpa.cross-world-price|money} for crossing into another world.{/if}
+      {if:tpa:tpa.price || tpa:tpa.price-per-100-blocks || tpa:tpa.cross-world-price}If the trip is cancelled or fails, you get it back. Both of you are told the price before it goes ahead.{/if}
+  - question: Can I go to other worlds this way?
+    title: Other worlds
+    text: |
+      {if:tpa:tpa.allow-cross-world}Yes, you may ask a player in another world.{else}No — requests across worlds are switched off here, so the other person must be in your world.{/if}
+  - question: How do I stop people asking me?
+    title: Being left alone
+    text: |
+      {cmd:/tptoggle} flips requests off (and on again); {cmd:/tptoggle off} sets it outright. People who ask you are told only that you are not accepting — the same words whether you switched off or blocked them.
+      {cmd:/tpablock <player>} stops one person; {cmd:/tpaunblock <player>} lets them back. {run:/tpablock} alone opens your block list. Neither of them is told when you block them.
+  - question: Can I accept everything automatically?
+    title: Auto-accept
+    text: |
+      {cmd:/tpauto} flips it, {cmd:/tpauto on} and {cmd:/tpauto off} set it. With it on, requests to you are accepted the moment they arrive — for friends who may land on you uninvited. Handle with care.
+  - question: Can I ask everybody at once?
+    title: Asking everyone
+    permission: tpa.here.all
+    text: |
+      {cmd:/tpahere @a} asks every player who could be asked — requests off, blocked, other worlds or invisible ones are passed over, and you are told how many were asked. They all still have to accept, unless they chose auto-accept.
+  - question: Who skips the waits and prices?
+    title: Bypass permissions
+    permission: tpa.bypass.warmup
+    text: |
+      <white>tpa.bypass.warmup</white> skips standing still, <white>tpa.bypass.cooldown</white> skips the wait between requests and between going back, <white>tpa.bypass.fee</white> skips every price, and <white>tpa.bypass.toggle</white> lets you ask people who have requests off or blocked you.
+      {if:tpa:tpa.operators-bypass}Operators count as holding the first three automatically.{else}Operators do not get them for free — an admin who silently bypasses a feature cannot test it.{/if} The toggle bypass is never automatic.

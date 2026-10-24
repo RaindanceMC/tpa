@@ -1,0 +1,31 @@
+id: back
+title: Going back
+summary: /back takes you to where you were before your last teleport — or to where you died.
+intro: |
+  Oops, wrong place? Or the creeper won? Either way, there is a way back.
+icon: COMPASS
+category: Getting around
+order: 21
+module: tpa
+when: tpa:tpa.back-enabled
+aliases: [back, return, death, died, last-location]
+keywords: [death, grave, previous, undo, teleport, cooldown]
+commands: [back]
+related: [teleport-requests]
+sections:
+  - question: What does /back do?
+    title: Going back
+    text: |
+      {run:/back} takes you to where you stood before your last teleport — a request, a warp, a home, anything that moved you. Type it again to undo the next one.
+      {if:tpa:tpa.allow-cross-world}It may cross worlds.{else}It cannot cross worlds on this server — only back within the world you are in.{/if}
+  - question: Does it take me to where I died?
+    title: Death spot
+    when: tpa:tpa.back-on-death
+    text: |
+      Yes. Your death counts as somewhere to go back to, and it outranks a teleport until you have used it: moved after dying, {run:/back} still means your body — where your things are lying. Hurry, items despawn.
+  - question: Is there a wait or a price?
+    title: Waits and price
+    text: |
+      {if:tpa:tpa.back-cooldown-seconds > 0}You can use it once every {setting:tpa:tpa.back-cooldown-seconds|seconds}.{else}There is no wait between uses.{/if} {if:tpa:tpa.back-cooldown-seconds > 0 && tpa:tpa.skip-cooldown-price}Too impatient? You may skip the wait for {setting:tpa:tpa.skip-cooldown-price|money}.{/if}
+      {if:tpa:tpa.back-price}Going back costs {setting:tpa:tpa.back-price|money}, taken as you set off and returned if the trip fails.{else}Going back is free.{/if}
+      {if:tpa:tpa.warmup-seconds > 0}You stand still for {setting:tpa:tpa.warmup-seconds|seconds} first.{/if} {if:tpa:tpa.warmup-seconds > 0 && tpa:tpa.cancel-on-move}Moving cancels it.{/if} {if:tpa:tpa.warmup-seconds > 0 && tpa:tpa.cancel-on-damage}So does being hurt.{/if}
