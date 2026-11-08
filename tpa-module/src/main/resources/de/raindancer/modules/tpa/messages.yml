@@ -113,7 +113,6 @@ tpa:
   # ---------------------------------------------------------------- usage
   only-a-player: "<red>A teleport request belongs to a player — this needs to be run in game."
   usage:
-    ask-here: "<gray>/tpahere <somebody who is online>"
     auto: "<gray>/tpauto <white>on<gray> or <white>off<gray>, or nothing at all to flip it."
     toggle: "<gray>/tptoggle <white>on<gray> or <white>off<gray>, or nothing at all to flip it."
 

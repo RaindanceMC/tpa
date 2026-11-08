@@ -49,11 +49,8 @@ public final class AskCommand implements ITpaCommand {
             return;
         }
         if (args.length == 0) {
-            if (kind == TpaKind.TO) {
-                live.screens().hub(player);
-            } else {
-                live.messages().send(player, "tpa.usage.ask-here");
-            }
+            // Either way round, no name typed opens the page where the name is picked from a list.
+            live.screens().hub(player);
             return;
         }
 
