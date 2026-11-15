@@ -80,7 +80,7 @@ public final class TpaHubMenu extends Menu implements ITpaScreen {
                     ? "<gray>" + services.back().waiting(viewer).orElseThrow().cause().describe()
                             + "."
                     : "<gray>Nowhere to go back to just yet.");
-            lore.add("<dark_gray>Set by any teleport — a warp, a home, a request.");
+            lore.add("<dark_gray>Set by any teleport: a warp, a home or a request.");
             String price = services.back().priceText(viewer);
             if (!price.isEmpty()) {
                 lore.add("<gray>Costs <white>" + price + "</white>.");
@@ -101,8 +101,8 @@ public final class TpaHubMenu extends Menu implements ITpaScreen {
         band(MenuLayout.RULES, 3, Icons.of(prefs.accepting() ? Material.LEVER : Material.GRAY_DYE,
                         "<white>People may ask you",
                         prefs.accepting() ? "<green>On" : "<red>Off",
-                        "<dark_gray>Off, nobody can ask — a blanket switch,",
-                        "<dark_gray>kept apart from who you have blocked.",
+                        "<dark_gray>Off, nobody can ask. This is kept",
+                        "<dark_gray>apart from who you have blocked.",
                         "",
                         "<gray>Click to turn it " + (prefs.accepting() ? "off." : "on.")),
                 click -> {
@@ -114,7 +114,7 @@ public final class TpaHubMenu extends Menu implements ITpaScreen {
         band(MenuLayout.RULES, 5, Icons.of(Material.IRON_DOOR, "<white>Blocked",
                         "<gray>" + (blocked == 0 ? "Nobody." : blocked + " blocked."),
                         "<dark_gray>They are told the same thing as somebody",
-                        "<dark_gray>you have simply switched off — a block is",
+                        "<dark_gray>you have switched off. A block is",
                         "<dark_gray>not something the other person can see.",
                         "",
                         "<gray>Click to see the list."),

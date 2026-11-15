@@ -75,7 +75,7 @@ public final class BlockedMenu extends PaginatedMenu<UUID> implements ITpaScreen
         return Icons.head(who, "<white>" + services.prefs().nameOf(who),
                 "<gray>Cannot ask to teleport to you.",
                 "<dark_gray>They are told the same thing as somebody",
-                "<dark_gray>you have simply switched off — a block is",
+                "<dark_gray>you have switched off. A block is",
                 "<dark_gray>not something they can see.",
                 "",
                 "<gray>Click to unblock them.");

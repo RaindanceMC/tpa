@@ -54,7 +54,7 @@ public final class TpaModule implements FlexModule {
 
     private static final ModuleInfo INFO = ModuleInfo.of("tpa", "Teleport requests", "2.11.0")
             .describedAs("Ask somebody whether you may come to them, or whether they will come to "
-                    + "you — and go back to where you were")
+                    + "you, and go back to where you were")
             .by("Raindancer118");
 
     private LogChannel log;

@@ -27,21 +27,21 @@ import org.bukkit.Material;
 public record TpaSettings(
 
         @In("tpa/asking") @Title("A request stands for") @Range(min = 5, max = 600)
-        @Describe("Seconds before an unanswered request lapses. Both people are told when it does — "
-                + "a request that vanishes without a word is one somebody goes on waiting to answer.")
+        @Describe("Seconds before an unanswered request lapses. Both people are told when it does, "
+                + "so nobody keeps waiting to answer a request that is gone.")
         @Key("tpa.request-seconds")
         int requestSeconds,
 
         @In("tpa/travelling") @Title("Stand still for") @Range(min = 0, max = 60)
-        @Describe("Seconds the traveller must stand still, so a teleport request is not a way out of "
-                + "a fight. Whoever travels is the one who waits: the asker for /tpa, and the person "
+        @Describe("Seconds the traveller must stand still, so a teleport request cannot be used to "
+                + "escape a fight. Whoever travels is the one who waits: the asker for /tpa, and the person "
                 + "who answered for /tpahere. Zero sends them at once.")
         @Key("tpa.warmup-seconds")
         int warmupSeconds,
 
         @In("tpa/travelling") @Title("Moving cancels the wait")
         @Describe("Whether leaving the block you started on gives up on the teleport. Turning and "
-                + "looking around never counts — only leaving the block.")
+                + "looking around never counts, only leaving the block.")
         @Key("tpa.cancel-on-move")
         boolean cancelOnMove,
 
@@ -64,17 +64,14 @@ public record TpaSettings(
 
         @In("tpa/travelling") @Title("Operators skip the waits")
         @Describe("Whether being an operator counts as holding the bypass permissions for the "
-                + "standing still and both waits, without being granted them. Off by default, and "
-                + "deliberately: an admin who silently bypasses a feature is the one person who "
-                + "cannot test it. Note it never covers being able to ask somebody who has requests "
-                + "switched off — that one is permission-only.")
+                + "standing still and both waits, without being granted them. Off by default, so "
+                + "admins can test the features. It never covers asking somebody who has requests "
+                + "switched off. That one needs the permission.")
         @Key("tpa.operators-bypass")
         boolean operatorsBypass,
 
         @In("tpa/back") @Title("Going back is switched on")
-        @Describe("Whether /back exists at all. Off removes the command and its button together — a "
-                + "menu that offers something the server does not have is worse than one that does "
-                + "not offer it.")
+        @Describe("Whether /back exists at all. Off removes the command and its button together.")
         @Key("tpa.back-enabled")
         boolean backEnabled,
 
@@ -92,13 +89,12 @@ public record TpaSettings(
 
         @In("tpa/asking") @Title("A bell when somebody asks")
         @Describe("Whether the person being asked hears a sound. Off leaves them the chat line "
-                + "alone — which is still clickable, and still there when they come back to the "
-                + "keyboard.")
+                + "alone, which stays clickable.")
         @Key("tpa.notify-sound")
         boolean notifySound,
 
         @In("tpa/prices") @Title("Price of a teleport")
-        @Describe("Money the person who travels pays for every request that is accepted — the asker "
+        @Describe("Money the person who travels pays for every request that is accepted: the asker "
                 + "for /tpa, the person who answered for /tpahere. Charged as they set off, given "
                 + "back if the trip is cancelled or fails. Written like 12.50 or 1.5k; zero is free "
                 + "and needs no economy plugin.")

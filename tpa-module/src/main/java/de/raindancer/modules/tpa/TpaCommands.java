@@ -53,7 +53,7 @@ public final class TpaCommands {
                                 "Accept a teleport request",
                                 new AnswerCommand(TpaCommands::require, true))
                         .aliased("tpyes")
-                        .taking("[player] — whose, if several are waiting"),
+                        .taking("[player]: whose, if several are waiting"),
                 ModuleCommand.of("tpdeny",
                                 "Turn a teleport request down",
                                 new AnswerCommand(TpaCommands::require, false))
@@ -64,7 +64,7 @@ public final class TpaCommands {
                                 new TpaToolsCommand(TpaCommands::require,
                                         TpaToolsCommand.What.CANCEL))
                         .aliased("tpacancel")
-                        .taking("[player] — whose request to withdraw"),
+                        .taking("[player]: whose request to withdraw"),
                 ModuleCommand.of("tptoggle",
                                 "Whether people may ask to teleport to you",
                                 new TpaToolsCommand(TpaCommands::require,
