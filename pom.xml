@@ -22,7 +22,7 @@
     <properties>
         <rainscore.version>2.103.0</rainscore.version>
         <modules-wrapper.version>1.13.0</modules-wrapper.version>
-        <tpa-module.version>2.12.0</tpa-module.version>
+        <tpa-module.version>2.13.0</tpa-module.version>
     </properties>
 
     <modules>

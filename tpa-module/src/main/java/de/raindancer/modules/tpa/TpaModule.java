@@ -52,7 +52,7 @@ import java.util.List;
  */
 public final class TpaModule implements FlexModule {
 
-    private static final ModuleInfo INFO = ModuleInfo.of("tpa", "Teleport requests", "2.12.0")
+    private static final ModuleInfo INFO = ModuleInfo.of("tpa", "Teleport requests", "2.13.0")
             .describedAs("Ask somebody whether you may come to them, or whether they will come to "
                     + "you, and go back to where you were")
             .by("Raindancer118");
@@ -180,15 +180,18 @@ public final class TpaModule implements FlexModule {
                     "Accept teleport requests on their own", "Requests to you are accepted the moment they arrive.",
                     player -> services.prefs().of(player.getUniqueId()).autoAccept(),
                     (player, on) -> services.prefs().setAutoAccept(player, on));
+            var blocked = TpaOffers.blocked((player, parent) -> new BlockedMenu(services, player, parent).open());
             de.raindancer.core.ui.travel.TravelDoors.offer(context.plugin(), players);
             de.raindancer.core.ui.travel.TravelDoors.offer(context.plugin(), back);
             de.raindancer.core.ui.preference.Preferences.offer(context.plugin(), requests);
             de.raindancer.core.ui.preference.Preferences.offer(context.plugin(), auto);
+            de.raindancer.core.ui.preference.Preferences.offer(context.plugin(), blocked);
             context.closeWith(() -> {
                 de.raindancer.core.ui.travel.TravelDoors.withdraw(players);
                 de.raindancer.core.ui.travel.TravelDoors.withdraw(back);
                 de.raindancer.core.ui.preference.Preferences.withdraw(requests);
                 de.raindancer.core.ui.preference.Preferences.withdraw(auto);
+                de.raindancer.core.ui.preference.Preferences.withdraw(blocked);
             });
         } catch (LinkageError olderCore) {
             log.info("RainsCore is older than 2.103.0: teleports are not on /travel or /preferences.");
