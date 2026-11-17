@@ -91,7 +91,7 @@ public final class TpaCommands {
                 ModuleCommand.of("back",
                                 "Go back to where you were, or where you died",
                                 new BackCommand(TpaCommands::require))
-                        .needing("rainstpa.back"));
+                        .needing(de.raindancer.modules.tpa.util.PermissionNodes.BACK));
     }
 
     static void ready(TpaServices live) {
