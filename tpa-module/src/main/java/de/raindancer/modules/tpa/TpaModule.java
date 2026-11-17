@@ -52,7 +52,7 @@ import java.util.List;
  */
 public final class TpaModule implements FlexModule {
 
-    private static final ModuleInfo INFO = ModuleInfo.of("tpa", "Teleport requests", "2.11.1")
+    private static final ModuleInfo INFO = ModuleInfo.of("tpa", "Teleport requests", "2.12.0")
             .describedAs("Ask somebody whether you may come to them, or whether they will come to "
                     + "you, and go back to where you were")
             .by("Raindancer118");
@@ -163,6 +163,36 @@ public final class TpaModule implements FlexModule {
         // this module already depends on Core, unlike the claims/mannequin pairing that pattern is for.
         teleportProfileExtension = new RequestTeleportProfileExtension(services);
         ProfileExtensions.register(teleportProfileExtension);
+
+        // Another player and Back are doors on /travel, and two of the choices are on /preferences (Core 2.103.0).
+        try {
+            var players = de.raindancer.core.ui.travel.TravelDoor.of("tpa:players", 30, "Another player",
+                    "Ask to go to them, or to have them come to you.",
+                    (player, parent) -> new TpaHubMenu(services, player, parent).open());
+            var back = de.raindancer.core.ui.travel.TravelDoor.of("tpa:back", 50, "Back",
+                            "Where you were before, or where you died.", (player, parent) -> services.back().go(player))
+                    .lockedWhen(player -> services.back().whyNotBack(player));
+            var requests = de.raindancer.core.ui.preference.Preference.toggle("tpa:requests", "Teleport requests",
+                    "Teleport requests from others", "Other players may ask to teleport to you or have you come to them.",
+                    player -> services.prefs().of(player.getUniqueId()).accepting(),
+                    (player, on) -> services.prefs().set(player, on));
+            var auto = de.raindancer.core.ui.preference.Preference.toggle("tpa:auto-accept", "Teleport requests",
+                    "Accept teleport requests on their own", "Requests to you are accepted the moment they arrive.",
+                    player -> services.prefs().of(player.getUniqueId()).autoAccept(),
+                    (player, on) -> services.prefs().setAutoAccept(player, on));
+            de.raindancer.core.ui.travel.TravelDoors.offer(context.plugin(), players);
+            de.raindancer.core.ui.travel.TravelDoors.offer(context.plugin(), back);
+            de.raindancer.core.ui.preference.Preferences.offer(context.plugin(), requests);
+            de.raindancer.core.ui.preference.Preferences.offer(context.plugin(), auto);
+            context.closeWith(() -> {
+                de.raindancer.core.ui.travel.TravelDoors.withdraw(players);
+                de.raindancer.core.ui.travel.TravelDoors.withdraw(back);
+                de.raindancer.core.ui.preference.Preferences.withdraw(requests);
+                de.raindancer.core.ui.preference.Preferences.withdraw(auto);
+            });
+        } catch (LinkageError olderCore) {
+            log.info("RainsCore is older than 2.103.0: teleports are not on /travel or /preferences.");
+        }
 
         // The commands were registered during bootstrap, long before any of this existed, and have been
         // answering "not started yet" until now. See TpaCommands.

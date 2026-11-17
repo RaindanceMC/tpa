@@ -113,6 +113,17 @@ public final class BackService implements ITpaService {
         return settings.backEnabled();
     }
 
+    /** Why they cannot go back now, for the button on /travel; empty when they can. */
+    public Optional<String> whyNotBack(Player who) {
+        if (!isEnabled()) {
+            return Optional.of("Switched off on this server");
+        }
+        if (!who.hasPermission(PermissionNodes.BACK)) {
+            return Optional.of("Not open to you here");
+        }
+        return waiting(who).isPresent() ? Optional.empty() : Optional.of("Nowhere to go back to");
+    }
+
     /** Where they would go, without using it up — what a menu asks to grey a button. */
     public Optional<Waypoint> waiting(Player who) {
         return who == null ? Optional.empty() : returns.anywhere(who.getUniqueId()).map(Returns.Elsewhere::where);

@@ -110,8 +110,20 @@ public final class TpaHubMenu extends Menu implements ITpaScreen {
                     refresh();
                 });
 
+        Lever auto = autoAcceptLever(prefs.autoAccept());
+        band(MenuLayout.RULES, 5, Icons.of(auto.material(), "<white>Auto-accept",
+                        auto.state(),
+                        "<dark_gray>On, requests to you are accepted",
+                        "<dark_gray>the moment they arrive.",
+                        "",
+                        auto.action()),
+                click -> {
+                    services.prefs().toggleAutoAccept(viewer);
+                    refresh();
+                });
+
         int blocked = prefs.blocked().size();
-        band(MenuLayout.RULES, 5, Icons.of(Material.IRON_DOOR, "<white>Blocked",
+        band(MenuLayout.RULES, 7, Icons.of(Material.IRON_DOOR, "<white>Blocked",
                         "<gray>" + (blocked == 0 ? "Nobody." : blocked + " blocked."),
                         "<dark_gray>They are told the same thing as somebody",
                         "<dark_gray>you have switched off. A block is",
@@ -119,6 +131,16 @@ public final class TpaHubMenu extends Menu implements ITpaScreen {
                         "",
                         "<gray>Click to see the list."),
                 click -> services.screens().blocked(viewer));
+    }
+
+    /** What the auto-accept lever looks like for one setting. */
+    record Lever(Material material, String state, String action) {
+    }
+
+    static Lever autoAcceptLever(boolean on) {
+        return new Lever(on ? Material.REDSTONE_TORCH : Material.LEVER,
+                on ? "<green>On" : "<red>Off",
+                "<gray>Click to turn it " + (on ? "off." : "on."));
     }
 
     @Override
